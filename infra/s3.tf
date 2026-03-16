@@ -1,7 +1,7 @@
 # ---------- Frontend static hosting bucket ----------
 
 resource "aws_s3_bucket" "frontend" {
-  bucket_prefix = "${var.project_name}-frontend-"
+  bucket_prefix = "${var.project_name}-frontend-v1"
 }
 
 resource "aws_s3_bucket_public_access_block" "frontend" {

@@ -31,7 +31,7 @@ const QuestionnairePage = ({
   return (
     <div className="questionnaire">
       <header className="brand-header">
-        <div className="brand-title">PlotTwist</div>
+        <div className="brand-title">FilmQuest</div>
         <p className="brand-sub">
           A cinematic mood quiz for the perfect watchlist.
         </p>

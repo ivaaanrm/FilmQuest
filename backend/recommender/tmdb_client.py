@@ -8,14 +8,21 @@ _TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 class TMDBClient:
     def __init__(self, api_key: str) -> None:
-        self._api_key = api_key
         self._session = requests.Session()
+        # TMDB issues two credential types: a short API key (passed as a query
+        # param) and a long JWT read-access token (passed as a Bearer header).
+        # Support both so either value works in the config.
+        if api_key.startswith("eyJ"):
+            self._session.headers["Authorization"] = f"Bearer {api_key}"
+            self._params: dict[str, str] = {}
+        else:
+            self._params = {"api_key": api_key}
 
     def get_movie(self, title: str) -> Movie | None:
         try:
             response = self._session.get(
                 f"{_TMDB_BASE_URL}/search/movie",
-                params={"query": title, "api_key": self._api_key},
+                params={"query": title, **self._params},
                 timeout=5,
             )
             response.raise_for_status()

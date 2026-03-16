@@ -13,6 +13,7 @@ class RecommendationService:
         self, request: RecommendationRequest, count: int
     ) -> RecommendationsResponse:
         titles = self._llm.get_movie_titles(request, count)
+        print(titles)
         movies = self._fetch_movies_concurrently(titles)
         return RecommendationsResponse(movies=movies)
 

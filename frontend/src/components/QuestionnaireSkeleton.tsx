@@ -2,7 +2,7 @@ const QuestionnaireSkeleton = () => {
   return (
     <div className="questionnaire">
       <header className="brand-header">
-        <div className="brand-title">PlotTwist</div>
+        <div className="brand-title">FilmQuest</div>
         <p className="brand-sub">Warming up the projector...</p>
       </header>
       <div className="panel">

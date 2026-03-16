@@ -11,7 +11,7 @@ const ResultsPage = ({ movies, onSelectMovie, onRestart }: ResultsPageProps) => 
   return (
     <div className="results">
       <header className="brand-header">
-        <div className="brand-title">PlotTwist</div>
+        <div className="brand-title">FilmQuest</div>
         <p className="brand-sub">Your personalized double feature awaits.</p>
       </header>
 

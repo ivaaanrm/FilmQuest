@@ -38,7 +38,7 @@ function App() {
       setMovies([])
       setCurrentIndex(0)
       setStatus('questionnaire')
-    } catch (error) {
+    } catch {
       setQuestionError('The projector stalled. Let’s try that again.')
       setStatus('error')
     }
@@ -83,7 +83,7 @@ function App() {
       const response = await fetchRecommendations(completedAnswers)
       setMovies(response)
       setStatus('results')
-    } catch (error) {
+    } catch {
       setRecommendationError(
         'The recommendation engine dimmed. Tap to try again.',
       )
