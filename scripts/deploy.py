@@ -114,10 +114,13 @@ def build_lambda_zip(source_dir: Path) -> Path:
         print(f"   Installing dependencies from {requirements.name}...")
         subprocess.run(
             [
-                sys.executable, "-m", "pip", "install",
+                "uv", "pip", "install",
                 "--target", str(package_dir),
                 "-r", str(requirements),
                 "--quiet",
+                "--python", sys.executable,
+                "--python-platform", "x86_64-unknown-linux-gnu",
+                "--python-version", "3.13",
             ],
             check=True,
         )
