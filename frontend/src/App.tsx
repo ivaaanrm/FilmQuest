@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import './App.css'
+import AuthPage from './components/AuthPage'
 import ErrorState from './components/ErrorState'
 import LoadingScreen from './components/LoadingScreen'
 import MovieModal from './components/MovieModal'
 import QuestionnaireSkeleton from './components/QuestionnaireSkeleton'
+import { useAuth } from './context/AuthContext'
 import { fetchQuestions, fetchRecommendations } from './lib/api'
 import QuestionnairePage from './pages/QuestionnairePage'
 import ResultsPage from './pages/ResultsPage'
@@ -14,6 +16,7 @@ type Status = 'loading' | 'questionnaire' | 'submitting' | 'results' | 'error'
 type AnswerEntry = Answer | null
 
 function App() {
+  const { isAuthenticated, isLoading: authLoading, signOut } = useAuth()
   const [status, setStatus] = useState<Status>('loading')
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -45,8 +48,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    loadQuestions()
-  }, [loadQuestions])
+    if (isAuthenticated) {
+      loadQuestions()
+    }
+  }, [isAuthenticated, loadQuestions])
 
   const completedAnswers = useMemo(
     () => answers.filter((answer): answer is Answer => Boolean(answer)),
@@ -95,6 +100,22 @@ function App() {
     loadQuestions()
   }
 
+  if (authLoading) {
+    return (
+      <div className="app-shell">
+        <QuestionnaireSkeleton />
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="app-shell">
+        <AuthPage />
+      </div>
+    )
+  }
+
   return (
     <div className="app-shell">
       {status === 'loading' && <QuestionnaireSkeleton />}
@@ -115,6 +136,7 @@ function App() {
           onSubmit={handleSubmit}
           canSubmit={canSubmit}
           recommendationError={recommendationError}
+          onSignOut={signOut}
         />
       )}
       {status === 'results' && (

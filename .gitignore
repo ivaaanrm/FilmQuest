@@ -89,3 +89,4 @@ crash.log
 *.tfvars.json
 
 # Terraform lock (optional)
+.claude/

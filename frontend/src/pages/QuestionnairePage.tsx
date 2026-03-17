@@ -11,6 +11,7 @@ interface QuestionnairePageProps {
   onSubmit: () => void
   canSubmit: boolean
   recommendationError?: string | null
+  onSignOut?: () => void
 }
 
 const QuestionnairePage = ({
@@ -21,6 +22,7 @@ const QuestionnairePage = ({
   onSubmit,
   canSubmit,
   recommendationError,
+  onSignOut,
 }: QuestionnairePageProps) => {
   const question = questions[currentIndex]
 
@@ -31,7 +33,14 @@ const QuestionnairePage = ({
   return (
     <div className="questionnaire">
       <header className="brand-header">
-        <div className="brand-title">FilmQuest</div>
+        <div className="brand-title-row">
+          <div className="brand-title">FilmQuest</div>
+          {onSignOut && (
+            <button type="button" className="btn btn-ghost btn-sm" onClick={onSignOut}>
+              Sign out
+            </button>
+          )}
+        </div>
         <p className="brand-sub">
           A cinematic mood quiz for the perfect watchlist.
         </p>

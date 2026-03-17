@@ -49,7 +49,7 @@ const MovieModal = ({ movie, onClose }: MovieModalProps) => {
                 {movie.release_date ? ` • ${movie.release_date}` : ''}
               </p>
             </div>
-            <button type="button" className="icon-button" onClick={onClose}>
+            <button type="button" className="icon-button" onClick={onClose} aria-label="Close dialog">
               Close
             </button>
           </div>

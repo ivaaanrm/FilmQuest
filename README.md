@@ -2,25 +2,16 @@
 
 ![FilmQuest Serverless Architecture](images/serverless.png)
 
-A mood-based movie recommendation app. Answer a series of cinema-themed questions about your current mood and preferences, and get personalized film recommendations powered by AI.
+A mood-based movie recommendation app built to practice serverless architecture on AWS. Answer a series of cinema-themed questions about your current mood and preferences, and get personalized film recommendations powered by AI.
 
 ## Tech Stack
 
 - **Frontend**: React 19, TypeScript, Vite -- hosted on S3 + CloudFront
 - **Backend**: Python 3.13 AWS Lambda functions behind API Gateway
+- **Auth**: AWS Cognito User Pool with email/password sign-up and JWT-based API authorization
 - **AI**: OpenAI API (gpt-4o-mini) for question generation and recommendations
 - **Movie Data**: TMDB API for posters, ratings, and metadata
 - **Infrastructure**: Terraform, deployed to AWS (eu-south-2)
-
-## Architecture
-
-```
-CloudFront --> S3 (React SPA)
-
-API Gateway
-  GET  /questions       --> Lambda (question_generator)
-  POST /recommendations --> Lambda (recommender)
-```
 
 Secrets (OpenAI and TMDB API keys) are stored in AWS Systems Manager Parameter Store.
 
@@ -31,8 +22,14 @@ backend/
   question_generator/   # Generates mood/preference questions via OpenAI
   recommender/          # Takes answers, gets recommendations via OpenAI + TMDB
   server.py             # FastAPI wrapper for local development
-frontend/               # React + Vite SPA
-infra/                  # Terraform configuration
+frontend/
+  src/
+    lib/auth.ts         # Cognito SDK wrapper (sign-up, sign-in, token management)
+    context/AuthContext  # React context providing auth state to the app
+    components/Auth*    # Sign-in, sign-up, and email confirmation forms
+infra/
+  cognito.tf            # Cognito User Pool, client, and API Gateway authorizer
+  api_gateway.tf        # REST API with COGNITO_USER_POOLS authorization
 scripts/
   deploy.py             # Deploys frontend and/or Lambda functions
 ```
@@ -54,6 +51,8 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Authentication is bypassed in local development (Cognito env vars are absent), so the app works without sign-in.
 
 ## Deployment
 

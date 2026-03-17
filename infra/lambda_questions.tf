@@ -40,7 +40,7 @@ resource "aws_lambda_function" "question_generator" {
   runtime       = "python3.13"
   timeout       = 29
   memory_size   = 256
-  reserved_concurrent_executions = 0  # Set to -1 (or remove) to re-enable
+  # reserved_concurrent_executions = 0  # Set to -1 (or remove) to re-enable
 
   filename         = data.archive_file.question_generator_placeholder.output_path
   source_code_hash = data.archive_file.question_generator_placeholder.output_base64sha256

@@ -22,3 +22,13 @@ output "cloudfront_distribution_id" {
   description = "CloudFront distribution ID (needed for cache invalidation)"
   value       = aws_cloudfront_distribution.frontend.id
 }
+
+output "cognito_user_pool_id" {
+  description = "Cognito User Pool ID"
+  value       = aws_cognito_user_pool.main.id
+}
+
+output "cognito_client_id" {
+  description = "Cognito User Pool Client ID for the frontend"
+  value       = aws_cognito_user_pool_client.frontend.id
+}
